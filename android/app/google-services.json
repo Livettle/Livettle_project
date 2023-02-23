@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "509018338320",
+    "project_id": "livettleproject",
+    "storage_bucket": "livettleproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509018338320:android:94fa3c5adbc09651bf0695",
+        "android_client_info": {
+          "package_name": "com.example.sdgplivettle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "509018338320-u88eqre90fn47lmojsk8t8eldc7ud5oi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sdgplivettle",
+            "certificate_hash": "0fb413fc5a02f2050874c97130d0fabf78101351"
+          }
+        },
+        {
+          "client_id": "509018338320-qo8l7k9cjdp4lj1ndo9f4n567ldgake4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8gCIyVOkiwa6gxX4IfsifhFCrIG_qQNo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "509018338320-qo8l7k9cjdp4lj1ndo9f4n567ldgake4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

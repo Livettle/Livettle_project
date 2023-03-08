@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
+import 'package:tflite/tflite.dart';
 
 class ScreenTwo extends StatefulWidget {
   const ScreenTwo({super.key});
@@ -17,6 +18,10 @@ class ScreenTwo extends StatefulWidget {
 
 class _ScreenTwoState extends State<ScreenTwo> {
   File? _image;
+
+  late List _result;
+  String _name = "";
+  String _confidence = "";
 
   Future getImage(ImageSource source) async {
     try {
@@ -33,10 +38,35 @@ class _ScreenTwoState extends State<ScreenTwo> {
     }
   }
 
+  loadModel() async {
+    var prediction_model = await Tflite.loadModel(
+        labels: "assets/labels.txt", model: "assets/model.tflite");
+
+    print("Model verdict: $prediction_model");
+  }
+
+  applyModelOnImage(File file) async {
+    var prediction = await Tflite.runModelOnImage(
+        path: file.path,
+        numResults: 7,
+        threshold: 0.5,
+        imageMean: 127.5,
+        imageStd: 127.5);
+
+    setState(() {
+      _result = prediction!;
+
+      print(_result[0]["label"]);
+    });
+  }
+
   Future<File> saveFilePermanently(String imagePath) async {
     final directory = await getApplicationDocumentsDirectory();
     final name = basename(imagePath);
     final image = File('${directory.path}/$name');
+
+    loadModel();
+    applyModelOnImage(image);
 
     return File(imagePath).copy(image.path);
   }

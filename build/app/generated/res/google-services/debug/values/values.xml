@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">509018338320-qo8l7k9cjdp4lj1ndo9f4n567ldgake4.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">509018338320</string>
+    <string name="google_api_key" translatable="false">AIzaSyB8gCIyVOkiwa6gxX4IfsifhFCrIG_qQNo</string>
+    <string name="google_app_id" translatable="false">1:509018338320:android:94fa3c5adbc09651bf0695</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyB8gCIyVOkiwa6gxX4IfsifhFCrIG_qQNo</string>
+    <string name="google_storage_bucket" translatable="false">livettleproject.appspot.com</string>
+    <string name="project_id" translatable="false">livettleproject</string>
+</resources>

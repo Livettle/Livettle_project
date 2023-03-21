@@ -38,6 +38,18 @@ class _ScreenTwoState extends State<ScreenTwo> {
     }
   }
 
+  Future<String> get _pathToSentimentFile async {
+    final dir = await getApplicationDocumentsDirectory();
+
+    return dir.path;
+  }
+
+  Future<File> get _sentimentFile async {
+    final path = await _pathToSentimentFile;
+    return File('$path/sentiment.txt');
+  }
+  
+
   loadModel() async {
     var prediction_model = await Tflite.loadModel(
         labels: "assets/labels.txt", model: "assets/model.tflite");

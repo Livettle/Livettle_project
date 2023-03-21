@@ -48,6 +48,15 @@ def main(emotion):
     title = soup.find_all("a", attrs = {"href" : re.compile(r'\/title\/tt+\d*\/')})
     return title
 
+app = Flask(__name__)
 
+path = '/'
+@app.route(path, methods=['POST'])
 
+def connect():
+    data = request.json
+
+    return{
+        data
+    }
 

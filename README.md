@@ -1,6 +1,6 @@
 # sdgplivettle
 
-A new Flutter project.
+A new Flutter project developed to recommend movies based on sentiment analysis.
 
 ## Getting Started
 

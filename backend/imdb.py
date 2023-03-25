@@ -1,6 +1,7 @@
-from bs4 import BeautifulSoup as SOUP
+from bs4 import BeautifulSoup
+import requests
 import re
-import requests as HTTP
+#import requests as HTTP
 import paramiko
 from paramiko.client import SSHClient
 from flask import Flask, request
@@ -37,20 +38,23 @@ def detect_emotion(emotion):
     elif(emotion == "surprise"):
         urlhere = 'http://www.imdb.com/search/title?genres=film_noir&title_type=feature&sort=moviemeter, asc'
 
-# Scraping part
-# HTTP request to get the data of
-    # the whole page
-    response = HTTP.get(urlhere)
-    data = response.text
 
-    # Parsing the data using
-    # BeautifulSoup
-    soup = SOUP(data, "lxml")
+    page = requests.get(urlhere)
+    soup = BeautifulSoup(page.content, 'html.parser')
 
-    # Extract movie titles from the
-    # data using regex
-    title = soup.find_all("a", attrs = {"href" : re.compile(r'\/title\/tt+\d*\/')})
-    return title
+    movie_info_list = []
+    movie_list = soup.find_all(class_='lister-item mode-advanced')
+
+    for movie in movie_list:
+            title = movie.find(class_='lister-item-header').a.text
+            year = int(re.search(r'\((\d{4})\)', movie.find(class_='lister-item-year').text).group(1))
+            genre = re.findall(r'(\w+)', movie.find(class_='genre').text)
+            image_url = movie.find('img')['loadlate']
+
+            movie_info = {'title': title, 'year': year, 'genre': genre, 'image_url': image_url}
+            movie_info_list.append(movie_info)
+
+    return movie_info_list
 
 app = Flask(__name__)
 
@@ -66,7 +70,7 @@ def connect():
     res = detect_emotion(sentiment_type)
 
     return{
-        "Movies to recommend ": str(res)
+        "response ": res
     }
 
 if __name__ == "__main__":

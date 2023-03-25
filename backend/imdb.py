@@ -1,10 +1,14 @@
 from bs4 import BeautifulSoup as SOUP
 import re
 import requests as HTTP
+import paramiko
+from paramiko.client import SSHClient
+from flask import Flask, request
+import json
 
-# Mapping emotions to relevent movies
+# Mapping emotions to relevant movies
 
-def main(emotion):
+def detect_emotion(emotion):
     # IMDb URLs for Drama genre of movie against emotion Anger
     if(emotion == "angry"):
         urlhere = 'http://www.imdb.com/search/title?genres=family&title_type=feature&sort=moviemeter, asc'
@@ -51,12 +55,29 @@ def main(emotion):
 app = Flask(__name__)
 
 path = '/'
-@app.route(path, methods=['POST'])
+@app.route(path, methods=['POST','GET'])
 
 def connect():
     data = request.json
+    data = json.dumps(data)
+    data = json.loads(data)
+    sentiment_type = data["sentiment"]
+
+    res = detect_emotion(sentiment_type)
 
     return{
-        data
+        "Movies to recommend ": str(res)
     }
 
+if __name__ == "__main__":
+    app.run(debug=True)
+
+
+'''
+curl req to pass :
+curl -X POST http://127.0.0.1:5000/ -H 'Content-Type: application/json' -d '{"sentiment": "<mood>"}'
+
+Example :
+curl -X POST http://127.0.0.1:5000/ -H 'Content-Type: application/json' -d '{"sentiment": "angry"}'
+
+'''

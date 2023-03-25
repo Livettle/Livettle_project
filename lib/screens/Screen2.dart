@@ -48,7 +48,7 @@ class _ScreenTwoState extends State<ScreenTwo> {
     final path = await _pathToSentimentFile;
     return File('$path/sentiment.txt');
   }
-  
+
 
   loadModel() async {
     var prediction_model = await Tflite.loadModel(
@@ -69,7 +69,18 @@ class _ScreenTwoState extends State<ScreenTwo> {
       _result = prediction!;
 
       print(_result[0]["label"]);
+
+      var returnValue = _result[0]["label"];
+      //curl request
+      writeToSentimentFile(_result[0]["label"]);
     });
+  }
+
+  Future<File> writeToSentimentFile(String counter) async {
+    final file = await _sentimentFile;
+
+    // Write the file
+    return file.writeAsString('$counter');
   }
 
   Future<File> saveFilePermanently(String imagePath) async {

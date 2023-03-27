@@ -34,7 +34,7 @@ def detect_emotion(emotion):
     elif(emotion == "sad"):
         urlhere = 'http://www.imdb.com/search/title?genres=drama&title_type=feature&sort=moviemeter, asc'
 
-    # IMDb URLs for Drama genre of movie against emotion Surprise
+    #IMDb URLs for Drama genre of movie against emotion Surprise
     elif(emotion == "surprise"):
         urlhere = 'http://www.imdb.com/search/title?genres=film_noir&title_type=feature&sort=moviemeter, asc'
 
@@ -51,7 +51,7 @@ def detect_emotion(emotion):
             genre = re.findall(r'(\w+)', movie.find(class_='genre').text)
             image_url = movie.find('img')['loadlate']
 
-            movie_info = {'title': title, 'year': year, 'genre': genre, 'image_url': image_url}
+            movie_info = {"title": title, "year": year, "genre": genre, "image_url": image_url}
             movie_info_list.append(movie_info)
 
     return movie_info_list
@@ -59,18 +59,27 @@ def detect_emotion(emotion):
 app = Flask(__name__)
 
 path = '/'
-@app.route(path, methods=['POST','GET'])
+@app.route(path, methods=['POST'])
 
 def connect():
     data = request.json
     data = json.dumps(data)
     data = json.loads(data)
     sentiment_type = data["sentiment"]
-
+    #a dictionary obj that contains relevent info about movies.
     res = detect_emotion(sentiment_type)
 
+    #TODO : to get values separately for future implementation
+    for i in res:
+        titles = i.get("title")
+        print(titles)
+        years = i.get("year")
+        genres = i.get("genre")
+        img_urls = i.get("image_url")
+
+
     return{
-        "response ": res
+        "response ": res  #TODO: this should be optimized to return a status.
     }
 
 if __name__ == "__main__":

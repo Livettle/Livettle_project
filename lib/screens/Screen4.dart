@@ -72,7 +72,7 @@ class _ScreenFourState extends State<ScreenFour> {
     );
   }
 
-  // the logout function
+  //logout function
   Future<void> logout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushReplacement(

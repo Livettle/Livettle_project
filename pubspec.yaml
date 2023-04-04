@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  test: ^1.24.0
   image_picker: ^0.8.6+2
   path_provider: ^2.0.12
   tmdb_api:
@@ -39,6 +40,10 @@ dependencies:
     sdk: flutter
   fluttertoast: ^8.1.2
   tflite: ^1.1.2
+
+dependency_overrides:
+  test_api: 0.4.18
+  matcher: ^0.12.15
 
 dev_dependencies:
   flutter_test:

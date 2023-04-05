@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'MoviePage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -140,6 +141,19 @@ class _ScreenTwoState extends State<ScreenTwo> {
             title: "Take A Photo",
             icon: Icons.camera_alt,
             onClick: () => getImage(ImageSource.camera),
+          ),
+          SizedBox(
+            height: 100,
+          ),
+          CustomButton(
+            title: "Navigate to Movies",
+            icon: Icons.image_outlined,
+            onClick: () => {
+            Navigator.push(
+            context as BuildContext,
+            MaterialPageRoute(builder: (context) => MoviePage(mood: "sad")),
+            )
+            },
           ),
         ],
       )),

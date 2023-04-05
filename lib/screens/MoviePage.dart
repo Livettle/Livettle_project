@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:sdgplivettle/widgets/MoviePageButtons.dart';
 import 'package:sdgplivettle/widgets/RecommendWidget.dart';
 
-class MoviePage extends StatelessWidget {
+class MoviePage extends StatefulWidget {
+  final String mood;
+
+  MoviePage({Key? key, required this.mood}) : super(key: key);
+
+  @override
+  _MoviePageState createState() => _MoviePageState();
+}
+
+class _MoviePageState  extends State<MoviePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

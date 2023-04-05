@@ -15,7 +15,7 @@ class TrendingMovies extends StatelessWidget {
         children: [
           Text(
             'Top Trending',
-            style: TextStyle(fontSize: 20, color: Colors.white),
+            style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 10),
           Container(

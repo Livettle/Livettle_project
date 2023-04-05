@@ -115,7 +115,7 @@ class _ScreenTwoState extends State<ScreenTwo> {
           child: Column(
         children: [
           SizedBox(
-            height: 100,
+            height: 50,
           ),
           _image != null
               ? Image.file(
@@ -135,7 +135,7 @@ class _ScreenTwoState extends State<ScreenTwo> {
             onClick: () => getImage(ImageSource.gallery),
           ),
           SizedBox(
-            height: 20,
+            height: 10,
           ),
           CustomButton(
             title: "Take A Photo",
@@ -143,7 +143,7 @@ class _ScreenTwoState extends State<ScreenTwo> {
             onClick: () => getImage(ImageSource.camera),
           ),
           SizedBox(
-            height: 100,
+            height: 20,
           ),
           CustomButton(
             title: "Navigate to Movies",

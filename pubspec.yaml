@@ -40,6 +40,8 @@ dependencies:
     sdk: flutter
   fluttertoast: ^8.1.2
   tflite: ^1.1.2
+  http: ^0.13.5
+  provider: ^6.0.5
 
 dependency_overrides:
   test_api: 0.4.18

@@ -11,7 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:tflite/tflite.dart';
 import 'package:http/http.dart' as http;
-
+var returnValue = 'happy';
 class Movie {
   final List genre;
   final String image_url;
@@ -77,7 +77,7 @@ class _ScreenTwoState extends State<ScreenTwo> {
 
       print(_result[0]["label"]);
 
-      var returnValue = _result[0]["label"];
+      returnValue = _result[0]["label"];
       createMovie(returnValue);
 
     });
@@ -149,12 +149,11 @@ class _ScreenTwoState extends State<ScreenTwo> {
             title: "Navigate to Movies",
             icon: Icons.image_outlined,
             onClick: () => {
-            Navigator.push(
-            context as BuildContext,
-            MaterialPageRoute(builder: (context) => MoviePage(mood: "sad")),
-            )
-            },
-          ),
+              Navigator.push(
+              context as BuildContext,
+              MaterialPageRoute(builder: (context) => MoviePage(mood: returnValue)),
+              )
+            }),
         ],
       )),
     );

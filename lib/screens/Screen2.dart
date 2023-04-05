@@ -9,6 +9,22 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:tflite/tflite.dart';
 
+class Movie {
+  final List genre;
+  final String image_url;
+  final String title;
+
+  const Movie({required this.genre, required this.image_url, required this.title});
+
+  factory Movie.fromJson(Map<String, dynamic> json) {
+    return Movie(
+        title: json['title'],
+        genre: json['genre'],
+        image_url: json['image_url']
+    );
+  }
+}
+
 class ScreenTwo extends StatefulWidget {
   const ScreenTwo({super.key});
 
@@ -59,10 +75,23 @@ class _ScreenTwoState extends State<ScreenTwo> {
       print(_result[0]["label"]);
 
       var returnValue = _result[0]["label"];
+      createMovie(returnValue);
 
     });
   }
 
+  Future<Movie> createMovie(String returnValue) async {
+    final response = await http.post(
+      Uri.parse('http://10.0.2.2:5000/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'sentiment': returnValue,
+      }),
+    );
+    return Movie.fromJson(jsonDecode(response.body));
+  }
 
   Future<File> saveFilePermanently(String imagePath) async {
     final directory = await getApplicationDocumentsDirectory();

@@ -47,11 +47,10 @@ def detect_emotion(emotion):
 
     for movie in movie_list:
             title = movie.find(class_='lister-item-header').a.text
-            year = int(re.search(r'\((\d{4})\)', movie.find(class_='lister-item-year').text).group(1))
             genre = re.findall(r'(\w+)', movie.find(class_='genre').text)
             image_url = movie.find('img')['loadlate']
 
-            movie_info = {"title": title, "year": year, "genre": genre, "image_url": image_url}
+            movie_info = {"title": title, "genre": genre, "image_url": image_url}
             movie_info_list.append(movie_info)
 
     return movie_info_list
@@ -73,7 +72,6 @@ def connect():
     for i in res:
         titles = i.get("title")
         print(titles)
-        years = i.get("year")
         genres = i.get("genre")
         img_urls = i.get("image_url")
 

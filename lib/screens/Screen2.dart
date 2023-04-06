@@ -1,7 +1,6 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
-import 'MoviePage.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -10,23 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:tflite/tflite.dart';
-
-var returnValue = 'happy';
-class Movie {
-  final List genre;
-  final String image_url;
-  final String title;
-
-  const Movie({required this.genre, required this.image_url, required this.title});
-
-  factory Movie.fromJson(Map<String, dynamic> json) {
-    return Movie(
-        title: json['title'],
-        genre: json['genre'],
-        image_url: json['image_url']
-    );
-  }
-}
+import 'package:http/http.dart' as http;
 
 class ScreenTwo extends StatefulWidget {
   const ScreenTwo({super.key});
@@ -56,7 +39,7 @@ class _ScreenTwoState extends State<ScreenTwo> {
       print("Failed To Pick Image: $e");
     }
   }
-  
+
   loadModel() async {
     var prediction_model = await Tflite.loadModel(
         labels: "assets/labels.txt", model: "assets/model.tflite");
@@ -65,6 +48,7 @@ class _ScreenTwoState extends State<ScreenTwo> {
   }
 
   applyModelOnImage(File file) async {
+    var API = 'python imdb.py';
     var prediction = await Tflite.runModelOnImage(
         path: file.path,
         numResults: 7,
@@ -72,29 +56,28 @@ class _ScreenTwoState extends State<ScreenTwo> {
         imageMean: 127.5,
         imageStd: 127.5);
 
-    setState(() {
+    setState(() async {
       _result = prediction!;
 
       print(_result[0]["label"]);
 
-      returnValue = _result[0]["label"];
-      createMovie(returnValue);
+        var emotion = _result[0]["label"];
 
-    });
-  }
+        final url = 'http://127.0.0.1:8080/'; 
+        final response = await http.post(
+          Uri.parse(url),
+          body: json.encode({'sentiment': emotion}),
+          headers: {'Content-Type': 'application/json'},
+        );
 
-  Future<Movie> createMovie(String returnValue) async {
-    final response = await http.post(
-      Uri.parse('http://10.0.2.2:5000/'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'sentiment': returnValue,
-      }),
-    );
-    return Movie.fromJson(jsonDecode(response.body));
-  }
+        if (response.statusCode == 200) {
+          List<dynamic> movies = json.decode(response.body);
+          print(movies);
+        } else {
+          throw Exception('Failed to load movies');
+        }
+      });
+    }
 
   Future<File> saveFilePermanently(String imagePath) async {
     final directory = await getApplicationDocumentsDirectory();
@@ -115,7 +98,7 @@ class _ScreenTwoState extends State<ScreenTwo> {
           child: Column(
         children: [
           SizedBox(
-            height: 50,
+            height: 100,
           ),
           _image != null
               ? Image.file(
@@ -135,25 +118,13 @@ class _ScreenTwoState extends State<ScreenTwo> {
             onClick: () => getImage(ImageSource.gallery),
           ),
           SizedBox(
-            height: 10,
+            height: 20,
           ),
           CustomButton(
             title: "Take A Photo",
             icon: Icons.camera_alt,
             onClick: () => getImage(ImageSource.camera),
           ),
-          SizedBox(
-            height: 20,
-          ),
-          CustomButton(
-            title: "Navigate to Movies",
-            icon: Icons.image_outlined,
-            onClick: () => {
-              Navigator.push(
-              context as BuildContext,
-              MaterialPageRoute(builder: (context) => MoviePage(mood: returnValue)),
-              )
-            }),
         ],
       )),
     );

@@ -93,7 +93,9 @@ def connect():
         content[title].append(json_data["d"][0]['qid'])
         print(content)
 
-    return content
+    return {
+        'content': content
+    }
 port = 8080
 if __name__ == "__main__":
     app.run(debug=True, host = '127.0.0.1', port = port)
